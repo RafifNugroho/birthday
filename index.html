@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#F8C8DC" />
+  <title>a little surprise for you ♡</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,400;1,500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body data-tone="pink" data-opened="false">
+
+  <!-- ============ SVG SPRITE (ikon & dekorasi dipakai ulang) ============ -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="i-heart" viewBox="0 0 24 24">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+      </symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></symbol>
+      <symbol id="i-pause" viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></symbol>
+
+      <symbol id="i-flower" viewBox="0 0 40 40">
+        <g fill="#F8C8DC">
+          <ellipse cx="20" cy="9" rx="6" ry="8"/>
+          <ellipse cx="20" cy="9" rx="6" ry="8" transform="rotate(72 20 20)"/>
+          <ellipse cx="20" cy="9" rx="6" ry="8" transform="rotate(144 20 20)"/>
+          <ellipse cx="20" cy="9" rx="6" ry="8" transform="rotate(216 20 20)"/>
+          <ellipse cx="20" cy="9" rx="6" ry="8" transform="rotate(288 20 20)"/>
+        </g>
+        <circle cx="20" cy="20" r="5" fill="#FFF8F5"/>
+        <circle cx="20" cy="20" r="2.4" fill="#E8A5BF"/>
+      </symbol>
+
+      <symbol id="i-bow" viewBox="0 0 80 56">
+        <path d="M40 26C28 4 4 6 6 24c2 16 24 12 34 4z" fill="#F8C8DC"/>
+        <path d="M40 26C52 4 76 6 74 24c-2 16-24 12-34 4z" fill="#F8C8DC"/>
+        <path d="M38 25C30 12 16 12 14 22" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M42 25C50 12 64 12 66 22" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M40 30L26 55l10-6 4 6z" fill="#F2B0CA"/>
+        <path d="M40 30l14 25-10-6-4 6z" fill="#F2B0CA"/>
+        <ellipse cx="40" cy="27" rx="7.5" ry="6.5" fill="#EFA3C0"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- ============ BACKGROUND & EFFECT LAYERS ============ -->
+  <div class="bg bg--cream" aria-hidden="true"></div>
+  <div class="bg bg--pink" aria-hidden="true"></div>
+  <canvas id="fx-bg" aria-hidden="true"></canvas>
+  <canvas id="fx-confetti" aria-hidden="true"></canvas>
+
+  <!-- ============ MUSIC (satu elemen audio, di luar semua section) ============ -->
+  <audio id="bgm" src="assets/birthday-music.mp3" loop preload="auto"></audio>
+
+  <div class="music" id="music" data-state="off">
+    <div class="music__status" aria-live="polite">
+      <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span class="music__text" id="musicText">music off</span>
+    </div>
+    <button class="music__btn" id="musicBtn" type="button" aria-label="play music" aria-pressed="false">
+      <svg class="ic ic-play" aria-hidden="true"><use href="#i-play"/></svg>
+      <svg class="ic ic-pause" aria-hidden="true"><use href="#i-pause"/></svg>
+    </button>
+    <div class="music__hint" id="musicHint" hidden>
+      <p id="musicHintText"></p>
+      <button type="button" id="musicRetry">play music</button>
+    </div>
+  </div>
+
+  <!-- ============ SECTIONS ============ -->
+  <main class="stage" id="stage">
+
+    <!-- 1 · OPENING -->
+    <section class="slide" id="s1" data-mood="opening" data-tone="pink" data-pos="active" aria-label="opening">
+      <div class="slide__inner seq">
+        <div class="envelope-wrap">
+          <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="envelope, tap to open">
+            <div class="env__back"></div>
+            <div class="env__card">
+              <span class="env__card-text">for you</span>
+              <svg class="env__card-heart" aria-hidden="true"><use href="#i-heart"/></svg>
+            </div>
+            <div class="env__front"></div>
+            <div class="env__flap"></div>
+            <svg class="env__seal" aria-hidden="true"><use href="#i-bow"/></svg>
+          </div>
+        </div>
+        <h1 class="title">someone made something for you</h1>
+        <p class="sub">a little surprise for your special day</p>
+        <button class="btn" id="openBtn" type="button">open your surprise ♡</button>
+      </div>
+    </section>
+
+    <!-- 2 · BIRTHDAY GREETING -->
+    <section class="slide" id="s2" data-mood="greeting" data-tone="cream" aria-label="birthday greeting">
+      <div class="balloons" aria-hidden="true">
+        <span class="balloon b1"></span>
+        <span class="balloon b2"></span>
+        <span class="balloon b3"></span>
+        <span class="balloon b4"></span>
+      </div>
+      <div class="slide__inner seq">
+        <h2 class="display">happy sweet sixteen!</h2>
+        <p class="lead">today is your special day, a day to celebrate someone who deserves so many beautiful things in life.</p>
+
+        <div class="cake" id="cake" role="img" aria-label="birthday cake with 16 candles">
+          <svg class="cake__svg" viewBox="0 0 320 270" aria-hidden="true">
+            <ellipse cx="160" cy="248" rx="142" ry="14" fill="#F3D3DF"/>
+            <rect x="34" y="160" width="252" height="86" rx="16" fill="#F8C8DC"/>
+            <path d="M34 178q14 22 28 0q14 22 28 0q14 22 28 0q14 22 28 0q14 22 28 0q14 22 28 0q14 22 28 0q14 22 28 0q14 22 28 0V160H34z" fill="#FFF8F5"/>
+            <rect x="72" y="104" width="176" height="62" rx="14" fill="#FCE4EC"/>
+            <path d="M72 122q11 18 22 0q11 18 22 0q11 18 22 0q11 18 22 0q11 18 22 0q11 18 22 0q11 18 22 0q11 18 22 0V104H72z" fill="#FFF8F5"/>
+            <text x="160" y="216" text-anchor="middle" class="cake__num">16</text>
+            <g id="candles"></g>
+          </svg>
+        </div>
+
+        <p class="note">selamat ulang tahun yang ke-16 yaa! semoga hari ini dipenuhi kebahagiaan, tawa, dan hal-hal kecil yang bisa membuat kamu tersenyum.</p>
+      </div>
+    </section>
+
+    <!-- 3 · 16 LITTLE WISHES -->
+    <section class="slide" id="s3" data-mood="wishes" data-tone="cream" aria-label="16 little wishes">
+      <div class="slide__inner seq">
+        <h2 class="display">16 little wishes</h2>
+        <p class="lead">one for every year. tap a card to open it.</p>
+        <div class="wish-grid" id="wishGrid"></div>
+        <p class="progress" id="wishProgress">0 of 16 opened</p>
+      </div>
+    </section>
+
+    <!-- 4 · A LETTER FOR YOU -->
+    <section class="slide" id="s4" data-mood="letter" data-tone="cream" aria-label="a letter for you">
+      <div class="slide__inner seq">
+        <h2 class="display">a letter for you</h2>
+
+        <button class="seal-btn" id="letterBtn" type="button" aria-expanded="false" aria-controls="letter">
+          <svg class="seal-btn__bow" aria-hidden="true"><use href="#i-bow"/></svg>
+          <span>open the letter</span>
+        </button>
+
+        <article class="letter" id="letter" hidden>
+          <div class="letter__ribbon" aria-hidden="true"></div>
+          <svg class="letter__bow" aria-hidden="true"><use href="#i-bow"/></svg>
+          <svg class="letter__flower lf1" aria-hidden="true"><use href="#i-flower"/></svg>
+          <svg class="letter__flower lf2" aria-hidden="true"><use href="#i-flower"/></svg>
+          <svg class="letter__flower lf3" aria-hidden="true"><use href="#i-flower"/></svg>
+
+          <div class="letter__body">
+            <p class="reveal letter__first">happy sweet sixteen to you!</p>
+
+            <p class="reveal">selamat ulang tahun yang ke-16 yaa. nggak kerasa sekarang kamu udah bertambah usia lagi. i hope this new chapter of your life brings you nothing but happiness, love, and countless beautiful moments. semoga di umur yang baru ini kamu selalu diberikan kesehatan, kebahagiaan, umur panjang, dan segala hal baik yang selama ini kamu harapkan bisa satu per satu terwujud.</p>
+
+            <p class="reveal">i hope you never lose the little things that make you who you are. tetap jadi diri kamu sendiri ya, tetap jadi seseorang yang punya banyak alasan untuk tersenyum, tetap punya semangat buat mengejar apa yang kamu impikan, dan jangan pernah merasa kalau kamu nggak cukup baik. kamu punya perjalananmu sendiri dan nggak perlu membandingkan langkahmu dengan orang lain. everyone has their own timeline, and you have yours too.</p>
+
+            <p class="reveal">semoga di usia 16 ini kamu bisa menemukan lebih banyak kebahagiaan dari hal-hal sederhana. semoga hari-hari kamu dipenuhi orang-orang yang tulus, lingkungan yang baik, dan pengalaman baru yang bisa membuat kamu semakin berkembang. when life gets difficult, i hope you always find a reason to keep going. jangan terlalu keras sama diri sendiri, jangan memaksakan diri untuk selalu terlihat kuat, dan jangan lupa kalau kamu juga berhak istirahat.</p>
+
+            <p class="reveal">terlepas dari bagaimana keadaan kita sekarang, i just want you to know that i'm grateful to have met you. terima kasih karena pernah menjadi bagian dari cerita hidupku dan memberikan beberapa kenangan yang mungkin akan tetap aku ingat sampai kapan pun. mungkin sekarang semuanya sudah berbeda, mungkin kita sudah nggak lagi berjalan beriringan seperti dulu, but that doesn't mean those memories meant nothing to me. aku tetap menghargai setiap hal yang pernah kita lalui bersama.</p>
+
+            <p class="reveal">i know we're not the same as we used to be, and maybe that's just how life works. ada orang yang datang untuk menetap dan ada juga yang hadir hanya untuk menjadi bagian dari cerita di suatu masa. whatever happens, i'm glad our paths crossed. aku harap kamu juga bisa mengambil hal-hal baik dari semua yang pernah terjadi dan terus melangkah tanpa harus terbebani oleh masa lalu.</p>
+
+            <p class="reveal">aku juga mau minta maaf kalau selama kita saling mengenal ada sikap, perkataan, atau perbuatanku yang pernah menyakiti kamu, baik yang aku sadari maupun yang nggak aku sadari. i'm sorry for every little thing i did wrong. aku sadar mungkin dulu ada banyak hal yang bisa aku lakukan dengan lebih baik. semoga kita bisa sama-sama tumbuh menjadi pribadi yang lebih dewasa dan belajar dari apa pun yang pernah terjadi.</p>
+
+            <p class="reveal">and please, don't forget to take care of yourself. jaga kesehatan, jangan terlalu sering begadang, jangan lupa makan, dan jangan terlalu memaksakan diri ketika keadaan sedang nggak baik-baik saja. i may not be the person who stays by your side anymore, but i genuinely hope life treats you kindly.</p>
+
+            <p class="reveal">one more thing, never stop chasing your dreams. jangan takut mencoba hal baru, jangan takut gagal, dan jangan pernah meragukan kemampuan diri sendiri. you're still young, you have so many things to discover, so many places to go, and so many beautiful memories waiting to be made. make the most of your teenage years because you only get to live them once.</p>
+
+            <p class="reveal">sekali lagi, happy 16th birthday! semoga semua doa yang kamu panjatkan hari ini bisa menjadi kenyataan di waktu yang tepat. may your smile never fade, may your heart always find peace, and may happiness always find its way back to you.</p>
+
+            <p class="reveal">enjoy your sweet sixteen, little girl. you deserve all the happiness in the world. stay safe, stay healthy, and always be happy. 🤍🤍</p>
+
+            <!-- baris di bawah ini sesuai permintaan; hapus satu <p> ini kalau nanti mau dihilangkan -->
+            <p class="reveal letter__ps">AVA KAMU JELEK😹😝</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 5 · LITTLE REMINDERS -->
+    <section class="slide" id="s5" data-mood="reminders" data-tone="cream" aria-label="little reminders">
+      <div class="slide__inner seq">
+        <h2 class="display display--sm">just a few things to remember</h2>
+        <div class="reminder" aria-live="polite">
+          <p class="reminder__text" id="reminderText"></p>
+        </div>
+        <div class="dots" id="reminderDots" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- 6 · FINAL PAGE -->
+    <section class="slide" id="s6" data-mood="final" data-tone="pink" aria-label="final page">
+      <div class="slide__inner seq">
+        <h2 class="display">that's all from me ♡</h2>
+        <p class="lead">maybe i can't give you the perfect birthday present, but i hope these little words can make your day a little more special.</p>
+        <p class="lead">terlepas dari semua yang sudah berubah, aku tetap berharap hal-hal baik selalu datang ke hidup kamu.</p>
+        <p class="lead">thank you for being part of my story. once again, happy birthday. may your world always be filled with beautiful things.</p>
+        <p class="signoff">with love, someone who wishes you the best. ♡</p>
+        <button class="btn btn--ghost" id="replayBtn" type="button">start over</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ WISH POP-UP (flip card) ============ -->
+  <div class="modal" id="wishModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="wish" inert>
+    <div class="modal__scrim" data-close></div>
+    <div class="modal__stack">
+      <div class="flip" id="flip">
+        <div class="flip__face flip__front">
+          <span class="flip__num" id="wishNumFront">01</span>
+          <svg class="flip__heart" aria-hidden="true"><use href="#i-heart"/></svg>
+        </div>
+        <div class="flip__face flip__back">
+          <span class="flip__no" id="wishNum">01</span>
+          <p class="flip__text" id="wishText"></p>
+        </div>
+      </div>
+      <button class="modal__close" id="wishClose" type="button" data-close>close</button>
+    </div>
+  </div>
+
+  <!-- ============ NAVIGATION ============ -->
+  <nav class="nav" id="nav" aria-label="sections">
+    <button id="prevBtn" class="nav__btn" type="button" aria-label="previous section">‹ back</button>
+    <ol class="nav__dots" id="navDots"></ol>
+    <button id="nextBtn" class="nav__btn" type="button" aria-label="next section">next ›</button>
+  </nav>
+
+  <script src="script.js"></script>
+</body>
+</html>
